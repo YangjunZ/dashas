@@ -117,5 +117,18 @@ public class Console {
             bandwidth: bandwidth
         });
     }
+
+    //Yangjun
+    public function appendPlayBuffer(comment:String, bufferTime:Number):void {
+        if (!enabled) {
+            return;
+        }
+
+        events.push({
+            id: "appendPlayBuffer",
+            comment: comment,
+            bufferTime: bufferTime
+        });
+    }
 }
 }

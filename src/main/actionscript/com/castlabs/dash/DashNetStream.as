@@ -110,6 +110,7 @@ public class DashNetStream extends NetStream {
 
                     //Yangjun
                     _enableLoad = true;
+                    _context.console.appendPlayBuffer("MIN_BUFFER_TIME", bufferTime);
                     return;
                 }
                 break;
@@ -117,6 +118,10 @@ public class DashNetStream extends NetStream {
                 if (bufferTime > MIN_BUFFER_TIME) {
                     resume();
                     notifyBufferFull();
+
+                    //Yangjun
+                    _context.console.appendPlayBuffer("Middle", bufferTime);
+                    
                     return;
                 }
                 break;
@@ -372,6 +377,8 @@ public class DashNetStream extends NetStream {
         } else {
             _fragmentTimer.start();
             _enableLoad = false;
+            var bufferTime:Number = _loadedTimestamp - time;
+            _context.console.appendPlayBuffer("MAX_BUFFER_TIME", bufferTime);
         }
     }
 
