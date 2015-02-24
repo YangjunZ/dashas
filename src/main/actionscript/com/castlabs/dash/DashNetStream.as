@@ -23,8 +23,13 @@ import flash.utils.Timer;
 import org.osmf.net.NetStreamCodes;
 
 public class DashNetStream extends NetStream {
-    private const MIN_BUFFER_TIME:Number = 5;
-    private const MAX_BUFFER_TIME:Number = 30;
+//    private const MIN_BUFFER_TIME:Number = 5;
+//    private const MAX_BUFFER_TIME:Number = 30;
+    //Yangjun
+    private const MIN_BUFFER_TIME:Number = 4;
+    private const MAX_BUFFER_TIME:Number = 80;
+    private var _enableLoad:Boolean = true;
+
 
     // actions
     private const PLAY:uint = 1;
@@ -102,6 +107,9 @@ public class DashNetStream extends NetStream {
                     pause();
                     notifyBufferEmpty();
                     updateState(BUFFER);
+
+                    //Yangjun
+                    _enableLoad = true;
                     return;
                 }
                 break;
@@ -345,15 +353,28 @@ public class DashNetStream extends NetStream {
         }
     }
 
+//    private function onFragmentTimer(timerEvent:TimerEvent = null):void {
+//        _fragmentTimer.stop();
+//
+//        if ((_loadedTimestamp - time) < MAX_BUFFER_TIME) {
+//            _loader.loadNextFragment();
+//        } else {
+//            _fragmentTimer.start();
+//        }
+//    }
+
+//Yangjun
     private function onFragmentTimer(timerEvent:TimerEvent = null):void {
         _fragmentTimer.stop();
 
-        if ((_loadedTimestamp - time) < MAX_BUFFER_TIME) {
+        if ((_enableLoad == true) && ((_loadedTimestamp - time) < MAX_BUFFER_TIME)) {
             _loader.loadNextFragment();
         } else {
             _fragmentTimer.start();
+            _enableLoad = false;
         }
     }
+
 
     private function onNetStatus(event:NetStatusEvent):void {
         switch(event.info.code) {
