@@ -26,8 +26,8 @@ public class DashNetStream extends NetStream {
 //    private const MIN_BUFFER_TIME:Number = 5;
 //    private const MAX_BUFFER_TIME:Number = 30;
     //Yangjun
-    private const MIN_BUFFER_TIME:Number = 4;
-    private const MAX_BUFFER_TIME:Number = 80;
+    private const MIN_BUFFER_TIME:Number = 8;
+    private const MAX_BUFFER_TIME:Number = 60;
     private var _enableLoad:Boolean = true;
 
 
@@ -373,6 +373,8 @@ public class DashNetStream extends NetStream {
         _fragmentTimer.stop();
 
         if ((_enableLoad == true) && ((_loadedTimestamp - time) < MAX_BUFFER_TIME)) {
+            var bufferTime:Number = _loadedTimestamp - time;
+            _context.console.appendPlayBuffer("Loading next fragment", bufferTime);
             _loader.loadNextFragment();
         } else {
             _fragmentTimer.start();
