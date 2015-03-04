@@ -80,6 +80,9 @@ public class DashContext {
     private static var _adaptiveSegmentDispatcher:AdaptiveSegmentDispatcher;
     private static var _fragmentLoader:FragmentLoader;
 
+    //Yangjun 
+    private static var _dashNetStream: DashNetStream;
+
     public function DashContext() {}
 
     public static function getInstance():DashContext {
@@ -170,8 +173,16 @@ public class DashContext {
         return _fragmentLoader;
     }
 
+    //Yangjun
+    public function get dashNetStream():DashNetStream {
+        return _dashNetStream;
+    }
+
     public function buildDashNetStream(connection:NetConnection):DashNetStream {
-        return new DashNetStream(this, connection);
+        //return new DashNetStream(this, connection);
+        //Yangjun
+        _dashNetStream = new DashNetStream(this, connection);
+        return _dashNetStream;
     }
 
     public function buildDashTimeTrait(stream:DashNetStream, duration:Number):DashTimeTrait {

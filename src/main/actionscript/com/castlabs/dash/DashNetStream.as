@@ -371,15 +371,15 @@ public class DashNetStream extends NetStream {
 //Yangjun
     private function onFragmentTimer(timerEvent:TimerEvent = null):void {
         _fragmentTimer.stop();
-
+        var bufferTime:Number = _loadedTimestamp - time;
         if ((_enableLoad == true) && ((_loadedTimestamp - time) < MAX_BUFFER_TIME)) {
-            var bufferTime:Number = _loadedTimestamp - time;
+            
             _context.console.appendPlayBuffer("Loading next fragment", bufferTime);
             _loader.loadNextFragment();
         } else {
             _fragmentTimer.start();
             _enableLoad = false;
-            var bufferTime:Number = _loadedTimestamp - time;
+            //var bufferTime:Number = _loadedTimestamp - time;
             _context.console.appendPlayBuffer("MAX_BUFFER_TIME", bufferTime);
         }
     }
@@ -402,6 +402,10 @@ public class DashNetStream extends NetStream {
     private function onEnd(event:StreamEvent):void {
         _loaded = true;
         _loadedTimestamp = _duration;
+    }
+
+    public function getBufferTime():Number{
+        return _loadedTimestamp - time;
     }
 }
 }

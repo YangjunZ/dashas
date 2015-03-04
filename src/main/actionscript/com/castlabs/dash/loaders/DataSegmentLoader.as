@@ -24,6 +24,8 @@ import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
 import flash.utils.ByteArray;
 import flash.utils.Timer;
+import flash.net.URLVariables;
+
 
 public class DataSegmentLoader extends SegmentLoader {
     private var _status:int = 0;
@@ -61,7 +63,19 @@ public class DataSegmentLoader extends SegmentLoader {
 
         _context.console.debug("Loading segment, url='" + getUrl() + "'");
 
-        _http.load(new URLRequest(getUrl()));
+
+        //_http.load(new URLRequest(getUrl()));
+        //Yangjun
+        var newRequest:URLRequest = new URLRequest(getUrl());
+        if( _context.dashNetStream != null){
+            var variables:URLVariables = new URLVariables();
+            //variables.exampleSessionId = new Date().getTime();
+            //variables.exampleUserLabel = "guest";
+            //variables.bufferTime = _context.dashNetStream.getBufferTime();
+            variables.bufferTime = String(_context.dashNetStream.getBufferTime());
+            newRequest.data = variables;
+        }
+        _http.load(newRequest);
     }
 
     override public function close():void {
