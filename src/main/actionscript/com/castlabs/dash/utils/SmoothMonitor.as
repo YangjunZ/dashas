@@ -20,6 +20,8 @@ public class SmoothMonitor {
     private var _context:DashContext;
 
     private var _bufferingCount:Number = 0;
+    private var _bufferingCount_Constant:Number = 6;
+    private var _bufferingCount_fact:Number = _bufferingCount_Constant;
 
     public function SmoothMonitor(context:DashContext) {
         _context = context;
@@ -44,6 +46,18 @@ public class SmoothMonitor {
     public function get fix():Number {
         var fix:Number = _bufferingCount - ACCEPTED_BUFFERING_COUNT;
         return fix > 0 ? fix : 0;
+    }
+
+    public function bufferingCountReduce():void {
+        _bufferingCount_fact = _bufferingCount_fact -1;
+        
+        if( _bufferingCount_fact == 0){
+            _bufferingCount = _bufferingCount - 1;
+            _bufferingCount_fact = _bufferingCount_Constant;
+            if(_bufferingCount < 0){
+                _bufferingCount = 0;
+            }
+        }
     }
 }
 }

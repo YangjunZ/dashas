@@ -44,8 +44,10 @@ public class AdaptiveSegmentDispatcher {
         }
 
         var oldIndex:int = index;
-
+        
         index -= _context.smoothMonitor.fix;
+        //Yangjun
+        _context.smoothMonitor.bufferingCountReduce();
         if (index < 0) {
             index = 0;
         }
