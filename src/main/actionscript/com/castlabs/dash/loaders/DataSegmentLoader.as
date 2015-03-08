@@ -42,7 +42,12 @@ public class DataSegmentLoader extends SegmentLoader {
     }
 
     override public function load():void {
-        load2();
+        var audioStr:String = "mp4a-bigbangS04e01-8k";
+        if( getUrl().indexOf(audioStr) != -1){
+            loadAudio();
+        }else{
+            load2();
+        }
     }
 
     private function load2(timerEvent:TimerEvent = null):void {
@@ -61,7 +66,7 @@ public class DataSegmentLoader extends SegmentLoader {
 
         _context.bandwidthMonitor.appendListeners(_http);
 
-        _context.console.debug("Loading segment, url='" + getUrl() + "'");
+        _context.console.debug("Loading video segment, url='" + getUrl() + "'");
 
 
         //_http.load(new URLRequest(getUrl()));
@@ -75,6 +80,28 @@ public class DataSegmentLoader extends SegmentLoader {
             variables.bufferTime = String(_context.dashNetStream.getBufferTime());
             newRequest.data = variables;
         }
+        _http.load(newRequest);
+    }
+
+    private function loadAudio(timerEvent:TimerEvent = null):void {
+        _waitTimer.stop();
+
+        _http = new URLLoader();
+
+        _http.dataFormat = URLLoaderDataFormat.BINARY;
+
+        _http.addEventListener(HTTPStatusEvent.HTTP_STATUS, onStatus);
+        _http.addEventListener(Event.COMPLETE, onComplete);
+        _http.addEventListener(ErrorEvent.ERROR, onError);
+        _http.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onError);
+        _http.addEventListener(SecurityErrorEvent.SECURITY_ERROR, onError);
+        _http.addEventListener(IOErrorEvent.IO_ERROR, onError);
+
+        //_context.bandwidthMonitor.appendListeners(_http);
+        _context.console.debug("Loading audio segment, url='" + getUrl() + "'");
+        //_http.load(new URLRequest(getUrl()));
+        //Yangjun
+        var newRequest:URLRequest = new URLRequest(getUrl());       
         _http.load(newRequest);
     }
 
