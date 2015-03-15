@@ -20,7 +20,7 @@ public class SmoothMonitor {
     private var _context:DashContext;
 
     private var _bufferingCount:Number = 0;
-    private var _bufferingCount_Constant:Number = 6;
+    private var _bufferingCount_Constant:Number = 20;
     private var _bufferingCount_fact:Number = _bufferingCount_Constant;
 
     public function SmoothMonitor(context:DashContext) {

@@ -14,7 +14,7 @@ import flash.events.EventDispatcher;
 import flash.net.URLLoader;
 
 public class BandwidthMonitor {
-    private const HISTORY_LENGTH:Number = 20;
+    private const HISTORY_LENGTH:Number = 40;
 
     private var _context:DashContext;
 
